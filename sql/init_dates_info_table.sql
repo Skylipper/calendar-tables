@@ -1,0 +1,38 @@
+DROP TABLE IF EXISTS public.dates_info;
+
+CREATE TABLE IF NOT EXISTS public.dates_info
+(
+    id                        serial primary key,
+    date_ts                   timestamp unique   not null,
+    date_form1                varchar(10) unique not null,
+    date_form2                varchar(10) unique not null,
+    date_form3                varchar(10) unique not null,
+    date_form4                varchar(8) unique  not null,
+    date_form5                varchar(10) unique not null,
+    date_form6                varchar(10) unique not null,
+    date_form7                varchar(8) unique  not null,
+    year                      numeric            not null,
+    year_short                varchar(2)         not null,
+    month_num                 numeric            not null,
+    month_num_str             varchar(2)         not null,
+    month_name_en             varchar(10)        not null,
+    month_name_en_short       varchar(3)         not null,
+    month_name_ru             varchar(10)        not null,
+    month_name_ru_short       varchar(4)         not null,
+    month_name_ru_rod         varchar(10)        not null,
+    quarter_num               numeric            not null,
+    quarter_id                varchar(6)         not null,
+    quarter_id_short          varchar(4)         not null,
+    iso_week                  numeric            not null,
+    iso_year                  numeric            not null,
+    iso_year_week             varchar(8)         not null,
+    iso_year_week1            varchar(8)         not null,
+    day_of_month_num          numeric            not null,
+    day_of_year_num           numeric            not null,
+    day_of_week_num           numeric            not null,
+    day_of_week_num_iso       numeric            not null,
+    day_of_week_name_en       varchar(10)        not null,
+    day_of_week_name_en_short varchar(3)         not null,
+    day_of_week_name_ru       varchar(12)        not null,
+    day_of_week_name_short    varchar(2)         not null
+);
