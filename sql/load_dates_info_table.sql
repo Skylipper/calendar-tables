@@ -99,7 +99,7 @@ INTO public.dates_info (date_ts, date_form1, date_form2, date_form3, date_form4,
                         iso_year, iso_year_week, iso_year_week1, day_of_month_num, day_of_year_num, day_of_week_num,
                         day_of_week_num_iso, day_of_week_name_en, day_of_week_name_en_short, day_of_week_name_ru,
                         day_of_week_name_short, day_type, holiday_name)
-SELECT date_ts,
+SELECT dates_enriched.date_ts,
        date_form1,
        date_form2,
        date_form3,
@@ -132,9 +132,10 @@ SELECT date_ts,
        day_of_week_name_ru,
        day_of_week_name_short,
        holidays.date_type as day_type,
-       holidays.holiday_name
+       holidays.holiday_name,
+       holidays.moved_from_holiday_date
 FROM dates_enriched
-LEFT JOIN public.holidays ON dates.date_ts = holidays.date_ts;
+LEFT JOIN public.holidays ON dates_enriched.date_ts = holidays.date_ts;
 
 
 

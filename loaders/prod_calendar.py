@@ -33,9 +33,13 @@ def get_day_dict(day, year, holidays_dict):
     holiday_code = day.get('h')
     holiday_name = holidays_dict.get(holiday_code)
 
+    move_from_holiday = day.get('f')
+    moved_from_holiday_date = get_date_for_day(move_from_holiday, year)
+
     date_dict['date'] = date_ts
     date_dict['type'] = day_type
     date_dict['holiday'] = holiday_name
+    date_dict['move_from_holiday'] = move_from_holiday
 
     return date_dict
 
@@ -76,19 +80,21 @@ def get_holidays():
             dates_list.extend(year_dates_list)
     return dates_list
 
-def insert_holidays_data(cur, table, date_ts, date_type, holiday_name):
+def insert_holidays_data(cur, table, date_ts, date_type, holiday_name, moved_from_holiday_date):
     cur.execute(
         f"""
-            INSERT INTO {table} (date_ts, date_type, holiday_name)
-            VALUES (%(date_ts)s, %(date_type)s, %(holiday_name)s)
+            INSERT INTO {table} (date_ts, date_type, holiday_name, moved_from_holiday_date)
+            VALUES (%(date_ts)s, %(date_type)s, %(holiday_name)s, %(move_from_holiday_date)s)
             ON CONFLICT (date_ts) DO UPDATE
                 SET date_type    = EXCLUDED.date_type,
-                    holiday_name  = EXCLUDED.holiday_name;
+                    holiday_name  = EXCLUDED.holiday_name
+                    moved_from_holiday_date = EXCLUDED.move_from_holiday_date;
             """,
         {
             "date_ts": date_ts,
             "date_type": date_type,
-            "holiday_name": holiday_name
+            "holiday_name": holiday_name,
+            "move_from_holiday_date": moved_from_holiday_date,
         }
     )
 
@@ -107,7 +113,7 @@ def load_holidays():
             insert_holidays_data(cursor, var.dwh_holidays_table, holiday['date'], holiday['type'], holiday['holiday'])
 
 def get_query_string_from_file(file_path):
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding='utf-8') as file:
         query_string = file.read()
 
     return query_string
@@ -135,7 +141,7 @@ def load_dates_table():
 
 
 
-# init_holidays_table()
-# load_holidays()
-# init_dates_table()
+init_holidays_table()
+load_holidays()
+init_dates_table()
 load_dates_table()
