@@ -92,16 +92,50 @@ def insert_holidays_data(cur, table, date_ts, date_type, holiday_name):
         }
     )
 
-def load_holidays(cur, table):
-    holidays = get_holidays()
+def get_dwh_conn():
     conn = psycopg2.connect(
         f"host='{secrets.dwh_host}' port='{secrets.dwh_port}' dbname='{secrets.dwh_db_name}' user='{secrets.dwh_user}' password='{secrets.dwh_password}'")
 
+    return conn
+
+def load_holidays():
+    holidays = get_holidays()
+    conn = get_dwh_conn()
     with conn:
         cursor = conn.cursor()
         for holiday in holidays:
             insert_holidays_data(cursor, var.dwh_holidays_table, holiday['date'], holiday['type'], holiday['holiday'])
 
+def get_query_string_from_file(file_path):
+    with open(file_path, 'r') as file:
+        query_string = file.read()
+
+    return query_string
+
+def execute_query(query_string):
+    conn = get_dwh_conn()
+    with conn:
+        cursor = conn.cursor()
+        cursor.execute(query_string)
+
+def init_holidays_table():
+    query_file_path = 'sql/init_holidays_table.sql'
+    query_string = get_query_string_from_file(query_file_path)
+    execute_query(query_string)
+
+def init_dates_table():
+    query_file_path = '../sql/init_dates_info_table.sql'
+    query_string = get_query_string_from_file(query_file_path)
+    execute_query(query_string)
+
+def load_dates_table():
+    query_file_path = '../sql/load_dates_info_table.sql'
+    query_string = get_query_string_from_file(query_file_path)
+    execute_query(query_string)
 
 
 
+# init_holidays_table()
+# load_holidays()
+# init_dates_table()
+load_dates_table()

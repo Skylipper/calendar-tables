@@ -89,7 +89,8 @@ WITH dates AS
                 WHEN EXTRACT(ISODOW FROM date_ts) = 6 THEN 'Сб'
                 WHEN EXTRACT(ISODOW FROM date_ts) = 7 THEN 'Вс'
             END                                                                as day_of_week_name_short
-     FROM dates)
+     FROM dates
+     )
 
 INSERT
 INTO public.dates_info (date_ts, date_form1, date_form2, date_form3, date_form4, date_form5, date_form6, date_form7,
@@ -97,7 +98,7 @@ INTO public.dates_info (date_ts, date_form1, date_form2, date_form3, date_form4,
                         month_name_ru_short, month_name_ru_rod, quarter_num, quarter_id, quarter_id_short, iso_week,
                         iso_year, iso_year_week, iso_year_week1, day_of_month_num, day_of_year_num, day_of_week_num,
                         day_of_week_num_iso, day_of_week_name_en, day_of_week_name_en_short, day_of_week_name_ru,
-                        day_of_week_name_short)
+                        day_of_week_name_short, day_type, holiday_name)
 SELECT date_ts,
        date_form1,
        date_form2,
@@ -129,8 +130,11 @@ SELECT date_ts,
        day_of_week_name_en,
        day_of_week_name_en_short,
        day_of_week_name_ru,
-       day_of_week_name_short
-FROM dates_enriched;
+       day_of_week_name_short,
+       holidays.date_type as day_type,
+       holidays.holiday_name
+FROM dates_enriched
+LEFT JOIN public.holidays ON dates.date_ts = holidays.date_ts;
 
 
 
