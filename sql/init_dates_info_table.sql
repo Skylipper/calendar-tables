@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS public.dates_info;
+-- DROP TABLE IF EXISTS public.dates_info;
 
 CREATE TABLE IF NOT EXISTS public.dates_info
 (

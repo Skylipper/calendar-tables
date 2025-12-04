@@ -1,4 +1,4 @@
-DROP table if exists public.holidays;
+-- DROP table if exists public.holidays;
 
 CREATE table if not exists public.holidays
 (

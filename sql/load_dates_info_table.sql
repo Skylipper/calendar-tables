@@ -98,7 +98,7 @@ INTO public.dates_info (date_ts, date_form1, date_form2, date_form3, date_form4,
                         month_name_ru_short, month_name_ru_rod, quarter_num, quarter_id, quarter_id_short, iso_week,
                         iso_year, iso_year_week, iso_year_week1, day_of_month_num, day_of_year_num, day_of_week_num,
                         day_of_week_num_iso, day_of_week_name_en, day_of_week_name_en_short, day_of_week_name_ru,
-                        day_of_week_name_short, day_type, holiday_name)
+                        day_of_week_name_short, day_type, holiday_name, moved_from_holiday_date)
 SELECT dates_enriched.date_ts,
        date_form1,
        date_form2,
