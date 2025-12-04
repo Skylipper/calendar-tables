@@ -1,0 +1,1 @@
+dwh_holidays_table = "public.holidays"

@@ -34,5 +34,7 @@ CREATE TABLE IF NOT EXISTS public.dates_info
     day_of_week_name_en       varchar(10)        not null,
     day_of_week_name_en_short varchar(3)         not null,
     day_of_week_name_ru       varchar(12)        not null,
-    day_of_week_name_short    varchar(2)         not null
+    day_of_week_name_short    varchar(2)         not null,
+    day_type                  varchar(128),
+    holiday_name              varchar(128)
 );
